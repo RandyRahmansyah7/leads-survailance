@@ -39,7 +39,7 @@ has_open_pr_for() {
 
 list_issues() {
   local jq_expr="$1"
-  local args=(issue list --state open --json number,title,labels --limit 50 --jq "$jq_expr")
+  local args=(issue list --state open --json 'number,title,labels' --limit 50 --jq "$jq_expr")
   if [ -n "$MILESTONE" ]; then
     args+=(--milestone "$MILESTONE")
   fi
@@ -120,6 +120,11 @@ if [ "${#queue[@]}" -gt 0 ]; then
     if ! git worktree add -b "$branch" "$wt" "origin/$BASE_BRANCH" >/dev/null 2>&1; then
       summaries+=("fail #$num worktree-add-failed")
       continue
+    fi
+
+    root="$(repo_root)"
+    if [[ -d "$root/node_modules" && ! -e "$wt/node_modules" ]]; then
+      ln -s "$root/node_modules" "$wt/node_modules"
     fi
 
     gh issue view "$num" --json title,body --jq '.title + "\n\n" + .body' > "/tmp/leads-task-$num.md"

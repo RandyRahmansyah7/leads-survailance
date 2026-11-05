@@ -25,13 +25,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Satu issue = satu branch = satu PR. Body PR wajib memuat `Closes #N` dan `Agent: <nama>`.
 - Jangan pernah push langsung ke `main` — wajib lewat PR dan CI.
 - Hanya Kilo yang membuat issue tugas baru.
-- Jalankan `npm run lint` + `npx tsc --noEmit` sebelum push.
+- Jalankan `npm run lint` + `npx next typegen && npx tsc --noEmit` sebelum push.
 - Jangan jalankan `npm run dev`/`npm run build` di laptop — CI yang build.
 
 ### Definition of Done
 
 - `npm run lint` lolos
-- `npx tsc --noEmit` lolos
+- `npx next typegen && npx tsc --noEmit` lolos
 - CI hijau (job `checks`)
 - PR sesuai scope issue
 
