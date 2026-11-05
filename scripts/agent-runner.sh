@@ -39,7 +39,7 @@ has_open_pr_for() {
 
 list_issues() {
   local jq_expr="$1"
-  local args=(issue list --state open --json number,title,labels --limit 50 --jq "$jq_expr")
+  local args=(issue list --state open --json 'number,title,labels' --limit 50 --jq "$jq_expr")
   if [ -n "$MILESTONE" ]; then
     args+=(--milestone "$MILESTONE")
   fi

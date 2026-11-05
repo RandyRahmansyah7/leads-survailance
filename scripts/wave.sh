@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)" || exit
 mkdir -p logs .worktrees
 
 MAX_WAVES="${MAX_WAVES:-5}"
