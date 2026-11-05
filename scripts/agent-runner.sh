@@ -122,6 +122,11 @@ if [ "${#queue[@]}" -gt 0 ]; then
       continue
     fi
 
+    root="$(repo_root)"
+    if [[ -d "$root/node_modules" && ! -e "$wt/node_modules" ]]; then
+      ln -s "$root/node_modules" "$wt/node_modules"
+    fi
+
     gh issue view "$num" --json title,body --jq '.title + "\n\n" + .body' > "/tmp/leads-task-$num.md"
 
     sed -e "s/{{AGENT}}/$agent/g" -e "s/{{ISSUE}}/$num/g" "$template" > "/tmp/leads-prompt-$num.md"
