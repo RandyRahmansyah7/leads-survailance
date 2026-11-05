@@ -42,3 +42,7 @@ next-env.d.ts
 
 # local sqlite
 /data/
+
+# multi-agent automation
+/.worktrees/
+/logs/

@@ -1,0 +1,39 @@
+name: Task
+description: Formulir tugas untuk queue multi-agent
+title: "[Task] "
+labels: ["role:build"]
+body:
+  - type: textarea
+    id: ringkasan
+    attributes:
+      label: Ringkasan
+      description: Jelaskan tugas secara singkat dan jelas.
+    validations:
+      required: true
+  - type: textarea
+    id: scope-file
+    attributes:
+      label: Scope file
+      description: Daftar file/direktori yang boleh disentuh (whitelist).
+      placeholder: |
+        - app/page.tsx
+        - components/
+    validations:
+      required: true
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of Done
+      value: |
+        - [ ] `npm run lint` lolos
+        - [ ] `npx tsc --noEmit` lolos
+        - [ ] PR dibuat dengan Closes + Agent
+    validations:
+      required: true
+  - type: textarea
+    id: catatan
+    attributes:
+      label: Catatan
+      description: Informasi tambahan, referensi, atau kendala yang diketahui.
+    validations:
+      required: false

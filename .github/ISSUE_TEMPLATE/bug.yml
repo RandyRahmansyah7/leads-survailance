@@ -1,0 +1,45 @@
+name: Bug
+description: Laporkan bug pada aplikasi
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: deskripsi
+    attributes:
+      label: Deskripsi
+      description: Jelaskan bug yang terjadi.
+    validations:
+      required: true
+  - type: textarea
+    id: langkah-reproduksi
+    attributes:
+      label: Langkah reproduksi
+      description: Langkah-langkah untuk mereproduksi bug.
+      placeholder: |
+        1. Buka halaman ...
+        2. Klik ...
+        3. Lihat error ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-vs-actual
+    attributes:
+      label: Expected vs Actual
+      description: Apa yang seharusnya terjadi dan apa yang sebenarnya terjadi.
+    validations:
+      required: true
+  - type: textarea
+    id: scope-file
+    attributes:
+      label: Scope file
+      description: Daftar file/direktori yang boleh disentuh untuk perbaikan.
+    validations:
+      required: true
+  - type: textarea
+    id: log-error
+    attributes:
+      label: Log/error
+      description: Tempelkan log atau pesan error jika ada.
+      render: shell
+    validations:
+      required: false
