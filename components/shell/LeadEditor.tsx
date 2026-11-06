@@ -17,7 +17,7 @@ import {
   type ReactNode,
 } from "react";
 import { deleteLeadAction, saveLead } from "@/lib/actions";
-import { STATUSES, STATUS_LABEL, type Lead } from "@/lib/leads";
+import { STATUSES, type Lead } from "@/lib/leads";
 import { EntityGlyph } from "./icons";
 
 const INPUT =
@@ -102,7 +102,7 @@ export default function LeadEditor({
   const active = creating || lead !== null;
 
   return (
-    <div className="absolute top-1 left-1 w-[375px] text-[11px]">
+    <div className="absolute top-1 left-1 w-[236px] text-[11px]">
       <div className="flex h-[26px] items-center gap-2 rounded-sm border border-[#e3e5e9] bg-white px-2 shadow-sm">
         {creating ? (
           <>
@@ -114,11 +114,8 @@ export default function LeadEditor({
           <>
             <span className="shrink-0 text-[#5b626b]">Mengubah</span>
             <EntityGlyph className="size-3.5 shrink-0 text-[#3f6fd8]" />
-            <span className="max-w-[100px] truncate font-medium">
+            <span className="max-w-[80px] truncate font-medium">
               {lead.name}
-            </span>
-            <span className="shrink-0 rounded-sm bg-[#eef0f4] px-1.5 text-[10px] text-[#5b626b]">
-              {STATUS_LABEL[lead.status]}
             </span>
           </>
         ) : (
