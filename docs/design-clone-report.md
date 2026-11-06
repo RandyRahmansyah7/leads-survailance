@@ -3,9 +3,11 @@
 Dokumen ini untuk dibaca manusia **dan agent** yang melanjutkan pekerjaan di repo ini.
 Referensi: `design1.jpeg`, `design2.jpeg`, `design3.jpeg` di root repo; `AGENTS.md` §Catatan Desain.
 
+Riwayat: versi awal (PR #3) → **revisi layout design1** (PR #5): baris `SYMBOL`, tool strip kiri + slider, handle tepi kiri, tree ringkas, dan tinggi bar atas 20px agar tata letak design1 sama persis.
+
 ## 1. Ringkasan
 
-- Ketiga gambar adalah **UI yang sama** pada ukuran jendela berbeda. Jadi implementasinya **satu UI responsif**, bukan tiga halaman.
+- Ketiga gambar adalah **UI yang sama** pada ukuran jendela berbeda. Jadi implementasinya **satu UI responsif**, bukan tiga halaman. Tata letak mengikuti **design1** (versi revisi).
 - Keputusan pemilik repo (hasil sesi tanya-jawab):
   - **Label chrome dipertahankan persis** seperti design (`Find...`, `Share`, `MTS//MNF`, `UNCLASSIFIED NOTIONAL DATA`, `CarloDB Light` / `0 overlays`, `Weather` / `None`, `Online View`, teks status bar, elemen timeline).
   - **Isi panel diadaptasi ke domain leads** (tab `Lead`/`Sumber`/`Alat`, kategori `Semua Lead`/`Baru`/`Follow-up`/`Deal`/`Arsip`, tombol `+ Baru`).
@@ -45,9 +47,9 @@ Area aplikasi = mulai bar hitam teratas (di bawah chrome browser) sampai bar baw
 | Chip `Live` pink | `#f7cacd` |
 | Latar area peta (design) | ~`#e9ecee` |
 
-### 2.3 Metrik elemen (dari pengukuran gambar)
+### 2.3 Metrik elemen (dari pengukuran gambar; nilai implementasi)
 
-- Bar atas: 20–22px; strip hijau: 19–20px; tab bar panel: 33px; lebar panel kiri: 248px; baris tree: 30px; bar bawah: 21–22px; timeline: ±26px; tile toolbar kanan: 22px.
+- Bar atas: 20px; strip hijau: 20px; tab bar panel: 33px; lebar panel kiri: 248px; baris tree: 30px; bar bawah: 22px; timeline: 24px; tile toolbar kanan: 22px; tile tool strip kiri: 16px; slider peta: 170×12px; panel editor: 375px.
 
 ## 3. Pemetaan elemen design → implementasi
 
@@ -56,10 +58,13 @@ Area aplikasi = mulai bar hitam teratas (di bawah chrome browser) sampai bar baw
 | Bar atas + menu `File…✓ Saved`, judul tengah, `Share`, `MTS//MNF`, fullscreen | `TopBar` (Share = salin URL, bintang = tersimpan lokal, fullscreen = nyata; menu inert) | `components/shell/TopBar.tsx` |
 | Strip hijau `UNCLASSIFIED NOTIONAL DATA` | `GreenStrip` (persis) | `components/shell/Chrome.tsx` |
 | Tab bar `Map layers / Data sources / Tools` | tab `Lead / Sumber / Alat` (adaptasi) | `components/shell/LeftPanel.tsx` |
-| `Find...` + tree layer | pencarian + tree lead per status (lihat §4) | `components/shell/LeftPanel.tsx` |
+| `Find...` + tree layer | pencarian + tree lead per status; **default ringkas 5 baris**, anak muncul saat grup diklik | `components/shell/LeftPanel.tsx` |
 | Chip `CarloDB Light · 0 overlays` | sama persis (dekoratif) | `components/shell/LeftPanel.tsx` |
 | Strip `Weather │ None` + ikon cuaca + gear | `WeatherStrip` (dekoratif) | `components/shell/Chrome.tsx` |
-| Bar `Adding to … + New ‹` + panel `SYMBOL` | panel editor lead (`Menambah ke … + Baru ‹`), baris `SYMBOL` (alat gambar peta) dihilangkan | `components/shell/LeadEditor.tsx` |
+| Bar `Adding to … + New ‹` | panel editor lead (`Menambah ke … + Baru ‹`), lebar 375px sesuai design1 | `components/shell/LeadEditor.tsx` |
+| Baris `SYMBOL` + 6 tombol simbol | baris `SYMBOL ▾` + 6 ikon (inert, tooltip "menyusul dengan peta") | `components/shell/LeadEditor.tsx` |
+| Tool strip kiri peta (`3D`, grid, ukur, gambar, pin) + slider abu | `MapLeftTools` (inert + tooltip) | `components/shell/MapOverlays.tsx` |
+| Handle `▤ ›` di tepi kiri + chevron kecil `‹` | `MapEdgeControls` (handle = buka/tutup panel lead; chevron inert) | `components/shell/MapOverlays.tsx` |
 | Toolbar ikon kanan (3 grup + bell) | 3 grup tile + bell; aksi peta inert dengan tooltip "menyusul dengan peta" | `components/shell/RightToolbar.tsx` |
 | Timeline + chip `Live h:mm:ss` + tombol sudut + chip pink `Live` | tanggal = minggu berjalan, jam = waktu nyata (berdetak), chip pink persis | `components/shell/Timeline.tsx`, `Chrome.tsx` |
 | Bar bawah `● Online View │ 72 interactive elements │ ⟳ ⊕` | `Online View` + jumlah lead nyata + tombol muat ulang / lead baru | `components/shell/Chrome.tsx` |
@@ -86,9 +91,11 @@ Area aplikasi = mulai bar hitam teratas (di bawah chrome browser) sampai bar baw
 
 | Design | Match ≤24 (seluruh area) | Match ≤24 (tanpa area peta) | MAE | Offset alignment |
 | --- | --- | --- | --- | --- |
-| design1 | 86.6% | 82.7% | 18.1 | (0, −4) |
-| design2 | 87.7% | 84.4% | 17.7 | (2, −2) |
-| design3 | 85.9% | 80.1% | 20.0 | (2, −2) |
+| design1 | 86.8% | 84.2% | 17.7 | (0, 0) |
+| design2 | 88.1% | 86.4% | 17.0 | (2, 0) |
+| design3 | 86.2% | 81.9% | 19.4 | (2, 0) |
+
+Setelah revisi layout, pergeseran vertikal sudah **0px** (sebelumnya −2…−4px).
 
 Interpretasi:
 - **Area peta ≈ 63% dari gambar** dan memang dikosongkan (menunggu Google Maps) — kontributor selisih terbesar. Inilah alasan utama angka tidak ~100%.
@@ -98,12 +105,12 @@ Interpretasi:
 ## 6. Deviasi & aproksimasi (disengaja)
 
 1. Chrome browser macOS tidak dibuat (keputusan pemilik repo).
-2. Area peta kosong + label kecil "Area peta — integrasi Google Maps menyusul".
-3. Label panel & isi tree diadaptasi ke leads (lihat §1); label chrome dipertahankan persis.
-4. Baris `SYMBOL` (alat menggambar simbol peta) tidak diimplementasikan — bagian dari integrasi peta.
-5. Ikon pihak ketiga memakai `lucide-react` sebagai aproksimasi glyph Palantir; glyph entity & logo dibuat custom.
-6. Timeline memakai tanggal minggu berjalan (bukan `3/15/2022`) dan jam nyata; chip pink `Live` dekoratif.
-7. Tombol toolbar kanan yang berhubungan peta = inert + tooltip "menyusul dengan peta". Tombol yang hidup: fullscreen, sembunyikan/tampilkan toolbar, muat ulang, `+ Baru`, ekspor CSV, Share, bintang tersimpan.
+2. Area peta kosong + label "Area peta — integrasi Google Maps menyusul"; elemen peta di design (marker, label, rute, polygon) tidak dibuat.
+3. Label panel & isi tree diadaptasi ke leads (lihat §1).
+4. Baris `SYMBOL`, tool strip kiri (`3D`/grid/ukur/gambar/pin), slider, dan chevron `‹` diimplementasikan **sesuai posisi design1 tetapi inert** (tooltip "menyusul dengan peta"); bukan bagian fungsional.
+5. Tree: chevron ada di semua baris grup (di design hanya sebagian) karena semua baris di sini adalah grup yang bisa dibuka; default semua tertutup mengikuti bentuk ringkas design1.
+6. Ikon pihak ketiga memakai `lucide-react` sebagai aproksimasi glyph Palantir; glyph entity & logo dibuat custom.
+7. Timeline memakai tanggal minggu berjalan (bukan `3/15/2022`) dan jam nyata; chip pink `Live` dekoratif.
 8. `components/LeadsDashboard.tsx` dan `components/MapEmbed.tsx` (versi awal issue #1) dihapus — tersedia di riwayat git.
 9. Font memakai Geist bawaan scaffold (font Palantir proprietary, tidak disertakan).
 
@@ -114,7 +121,8 @@ app/page.tsx                      halaman utama (server) → Shell
 components/shell/Shell.tsx        root client: state seleksi/editor/toolbar
 components/shell/TopBar.tsx       bar hitam atas
 components/shell/LeftPanel.tsx    tab Lead/Sumber/Alat, Find..., tree lead
-components/shell/LeadEditor.tsx   panel editor lead (tambah/ubah/hapus)
+components/shell/LeadEditor.tsx   panel editor lead + baris SYMBOL
+components/shell/MapOverlays.tsx  tool strip kiri, slider, handle tepi
 components/shell/Timeline.tsx     timeline + jam live
 components/shell/RightToolbar.tsx toolbar ikon kanan
 components/shell/Chrome.tsx       GreenStrip, WeatherStrip, bar bawah

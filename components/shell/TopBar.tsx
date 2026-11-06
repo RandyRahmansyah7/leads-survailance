@@ -49,7 +49,7 @@ export default function TopBar({
   }
 
   return (
-    <header className="flex h-[22px] shrink-0 items-center gap-3 bg-[#15181d] px-2 text-[11px] text-[#e8eaed]">
+    <header className="flex h-[20px] shrink-0 items-center gap-3 bg-[#15181d] px-2 text-[11px] text-[#e8eaed]">
       <LogoMark className="size-3.5 shrink-0 text-white" />
       <nav className="hidden items-center gap-3 text-[#b6bcc4] md:flex">
         {MENU.map((item) => (

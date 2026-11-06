@@ -43,7 +43,7 @@ export default function Timeline({
   ];
 
   return (
-    <div className="relative h-[26px] shrink-0 border-t border-[#e7e8ea] bg-[#fdfdfd]">
+    <div className="relative h-[24px] shrink-0 border-t border-[#e7e8ea] bg-[#fdfdfd]">
       <div
         className="absolute inset-x-0 top-[15px] h-[5px]"
         style={{

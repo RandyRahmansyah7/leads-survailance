@@ -7,6 +7,7 @@ import type { Lead } from "@/lib/leads";
 import { BottomLeft, BottomRight, GreenStrip, WeatherStrip } from "./Chrome";
 import LeadEditor from "./LeadEditor";
 import LeftPanel from "./LeftPanel";
+import { MapEdgeControls, MapLeftTools } from "./MapOverlays";
 import RightToolbar from "./RightToolbar";
 import Timeline from "./Timeline";
 import TopBar from "./TopBar";
@@ -15,6 +16,7 @@ export default function Shell({ leads }: { leads: Lead[] }) {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [creating, setCreating] = useState(false);
+  const [editorCollapsed, setEditorCollapsed] = useState(false);
   const [showToolbar, setShowToolbar] = useState(true);
 
   const selected = useMemo(
@@ -62,9 +64,15 @@ export default function Shell({ leads }: { leads: Lead[] }) {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-sm border border-[#d7dade] bg-[#f2f3f4]/90 px-2 py-1 text-[11px] text-[#7d848d]">
               Area peta — integrasi Google Maps menyusul
             </div>
+            <MapLeftTools />
+            <MapEdgeControls
+              onToggleEditor={() => setEditorCollapsed((value) => !value)}
+            />
             <LeadEditor
               lead={selected}
               creating={creating}
+              collapsed={editorCollapsed}
+              onCollapsedChange={setEditorCollapsed}
               onSaved={selectLead}
               onDone={() => setCreating(false)}
               onDeleted={() => {
