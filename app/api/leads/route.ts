@@ -3,8 +3,6 @@ import { createLead, getLead, queryLeads } from "@/lib/db";
 import { isLeadStatus } from "@/lib/leads";
 import { parseLeadInput } from "@/lib/validate";
 
-export const runtime = "nodejs";
-
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 200;
 

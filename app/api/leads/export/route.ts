@@ -1,8 +1,6 @@
 import { connection } from "next/server";
 import { exportLeadsCsv } from "@/lib/db";
 
-export const runtime = "nodejs";
-
 export async function GET(): Promise<Response> {
   try {
     await connection();

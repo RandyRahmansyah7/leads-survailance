@@ -1,7 +1,5 @@
 import { importLeads } from "@/lib/db";
 
-export const runtime = "nodejs";
-
 function jsonError(message: string, status: number): Response {
   return Response.json({ error: message }, { status });
 }

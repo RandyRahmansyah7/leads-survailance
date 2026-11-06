@@ -2,8 +2,6 @@ import { connection } from "next/server";
 import { deleteLead, getLead, updateLead } from "@/lib/db";
 import { parseLeadPatch } from "@/lib/validate";
 
-export const runtime = "nodejs";
-
 type RouteParams = { params: Promise<{ id: string }> };
 
 function jsonError(message: string, status: number): Response {
