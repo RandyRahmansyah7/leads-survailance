@@ -36,6 +36,12 @@ const db = (g.leadsDb ??= new DatabaseSync(join(dataDir, "leads.db")));
 db.exec("PRAGMA journal_mode = WAL");
 db.exec("PRAGMA synchronous = NORMAL");
 
+// Expose the shared connection so other lib modules (e.g. analytics) reuse it
+// instead of opening a second handle to the same database file.
+export function getDb(): DatabaseSync {
+  return db;
+}
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS leads (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
