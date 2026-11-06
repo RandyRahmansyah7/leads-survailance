@@ -118,8 +118,15 @@ if [ "${#queue[@]}" -gt 0 ]; then
     branch="$btype/$num-$slug"
 
     if ! git worktree add -b "$branch" "$wt" "origin/$BASE_BRANCH" >/dev/null 2>&1; then
-      summaries+=("fail #$num worktree-add-failed")
-      continue
+      # A previous failed run may have left a stale, empty branch behind; clear it and retry once.
+      if git show-ref --verify --quiet "refs/heads/$branch" \
+        && [ -z "$(git log "origin/$BASE_BRANCH..$branch" --oneline 2>/dev/null)" ]; then
+        git branch -D "$branch" >/dev/null 2>&1 || true
+      fi
+      if ! git worktree add -b "$branch" "$wt" "origin/$BASE_BRANCH" >/dev/null 2>&1; then
+        summaries+=("fail #$num worktree-add-failed")
+        continue
+      fi
     fi
 
     root="$(repo_root)"
