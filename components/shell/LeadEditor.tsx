@@ -1,6 +1,15 @@
 "use client";
 
-import { Aperture, Plus } from "lucide-react";
+import {
+  Aperture,
+  Crosshair,
+  Ellipsis,
+  Flag,
+  Image,
+  LayoutGrid,
+  Plus,
+  Star,
+} from "lucide-react";
 import {
   startTransition,
   useState,
@@ -23,9 +32,13 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
+const SYMBOL_ICONS = [Crosshair, Ellipsis, Star, LayoutGrid, Image, Flag];
+
 export default function LeadEditor({
   lead,
   creating,
+  collapsed,
+  onCollapsedChange,
   onSaved,
   onDone,
   onDeleted,
@@ -33,12 +46,13 @@ export default function LeadEditor({
 }: {
   lead: Lead | null;
   creating: boolean;
+  collapsed: boolean;
+  onCollapsedChange: (value: boolean) => void;
   onSaved: (id: number) => void;
   onDone: () => void;
   onDeleted: () => void;
   onNew: () => void;
 }) {
-  const [collapsed, setCollapsed] = useState(false);
   const [pending, setPending] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +89,7 @@ export default function LeadEditor({
     return (
       <button
         type="button"
-        onClick={() => setCollapsed(false)}
+        onClick={() => onCollapsedChange(false)}
         title="Buka panel lead"
         className="absolute top-1.5 left-1.5 flex items-center gap-1.5 rounded-sm border border-[#e3e5e9] bg-white px-2 py-1 text-[11px] shadow-sm"
       >
@@ -88,7 +102,7 @@ export default function LeadEditor({
   const active = creating || lead !== null;
 
   return (
-    <div className="absolute top-1.5 left-1.5 w-[360px] text-[11px]">
+    <div className="absolute top-1 left-1 w-[375px] text-[11px]">
       <div className="flex h-[26px] items-center gap-2 rounded-sm border border-[#e3e5e9] bg-white px-2 shadow-sm">
         {creating ? (
           <>
@@ -124,12 +138,30 @@ export default function LeadEditor({
         </button>
         <button
           type="button"
-          onClick={() => setCollapsed(true)}
+          onClick={() => onCollapsedChange(true)}
           title="Kecilkan"
           className="shrink-0 text-[#5b626b] hover:text-[#2c3138]"
         >
           ‹
         </button>
+      </div>
+
+      <div className="mt-0.5 flex h-[22px] items-center gap-1.5 rounded-sm border border-[#e3e5e9] bg-white px-2 shadow-sm">
+        <span className="flex items-center gap-0.5 text-[10px] font-semibold tracking-wide text-[#3f4650]">
+          SYMBOL
+          <span className="text-[7px] text-[#8b929c]">▾</span>
+        </span>
+        <span className="h-3.5 w-px bg-[#e6e8ea]" />
+        {SYMBOL_ICONS.map((Icon, index) => (
+          <button
+            key={index}
+            type="button"
+            title="Alat simbol peta (menyusul dengan peta)"
+            className="flex size-[15px] items-center justify-center rounded-[3px] text-[#4a5058] hover:bg-[#f0f2f4]"
+          >
+            <Icon className="size-3" />
+          </button>
+        ))}
       </div>
 
       {active && (

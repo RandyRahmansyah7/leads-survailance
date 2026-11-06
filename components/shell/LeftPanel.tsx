@@ -45,9 +45,8 @@ export default function LeftPanel({
 }) {
   const [tab, setTab] = useState<Tab>("lead");
   const [query, setQuery] = useState("");
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({
-    all: true,
-  });
+  // default ringkas seperti design1: 5 baris grup, anak muncul saat diklik
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
