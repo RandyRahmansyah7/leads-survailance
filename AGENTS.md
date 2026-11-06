@@ -51,4 +51,4 @@ Planning membuat maksimal 6 issue per wave.
 
 ### Catatan Desain
 
-`design1.jpeg`–`design3.jpeg` di root adalah referensi UI (ditangani terpisah via opencode).
+`design1.jpeg`–`design3.jpeg` di root adalah referensi UI (ditangani terpisah via opencode). Laporan implementasi: `docs/design-clone-report.md` + screenshot/diff di `docs/screenshots/`.
