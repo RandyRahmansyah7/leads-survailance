@@ -163,22 +163,22 @@ export default function LeftPanel({
               if (filtering && group.items.length === 0) return null;
               return (
                 <div key={group.id}>
-                  <div className="flex h-[30px] items-center gap-1.5 px-2 hover:bg-[#f4f6f8]">
+                  <div className="flex h-[21px] items-center gap-1.5 px-2 hover:bg-[#f4f6f8]">
                     <button
                       type="button"
                       onClick={() => toggleGroup(group.id)}
                       aria-label={open ? "Tutup grup" : "Buka grup"}
-                      className="flex size-4 items-center justify-center text-[#5b626b]"
+                      className="flex size-3.5 items-center justify-center text-[#8b929c]"
                     >
                       {open ? (
-                        <ChevronDown className="size-3.5" />
+                        <ChevronDown className="size-3" />
                       ) : (
-                        <ChevronRight className="size-3.5" />
+                        <ChevronRight className="size-3" />
                       )}
                     </button>
                     <GroupGlyph
                       id={group.id}
-                      className={`size-4 ${
+                      className={`size-3.5 ${
                         group.id === "arsip"
                           ? "text-[#7a5ed0]"
                           : "text-[#3f6fd8]"
@@ -187,12 +187,12 @@ export default function LeftPanel({
                     <button
                       type="button"
                       onClick={() => toggleGroup(group.id)}
-                      className="flex-1 truncate text-left"
+                      className="flex-1 truncate text-left text-[#4a5058]"
                     >
                       {group.label}
                     </button>
                     {group.live && (
-                      <Rss className="size-3.5 shrink-0 text-[#2e9e63]" />
+                      <Rss className="size-3 shrink-0 text-[#2e9e63]" />
                     )}
                   </div>
                   {open &&
@@ -201,13 +201,13 @@ export default function LeftPanel({
                         key={`${group.id}-${lead.id}`}
                         type="button"
                         onClick={() => onSelect(lead.id)}
-                        className={`flex h-[28px] w-full items-center gap-2 pr-2 pl-8 text-left ${
+                        className={`flex h-[21px] w-full items-center gap-2 pr-2 pl-7 text-left ${
                           lead.id === selectedId
                             ? "bg-[#e3ecfa] text-[#1d4e9c]"
-                            : "hover:bg-[#f4f6f8]"
+                            : "text-[#4a5058] hover:bg-[#f4f6f8]"
                         }`}
                       >
-                        <EntityGlyph className="size-3.5 shrink-0 text-[#3f6fd8]" />
+                        <EntityGlyph className="size-3 shrink-0 text-[#3f6fd8]" />
                         <span className="truncate">{lead.name}</span>
                       </button>
                     ))}
