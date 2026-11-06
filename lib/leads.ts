@@ -7,7 +7,12 @@ export type Lead = {
   address: string | null;
   notes: string | null;
   status: LeadStatus;
+  category: string | null;
+  tags: string | null;
+  lat: number | null;
+  lng: number | null;
   created_at: string;
+  updated_at: string | null;
 };
 
 export const STATUSES: { id: LeadStatus; label: string }[] = [
@@ -20,3 +25,9 @@ export const STATUSES: { id: LeadStatus; label: string }[] = [
 export const STATUS_LABEL = Object.fromEntries(
   STATUSES.map((status) => [status.id, status.label]),
 ) as Record<LeadStatus, string>;
+
+export const STATUS_IDS: LeadStatus[] = STATUSES.map((status) => status.id);
+
+export function isLeadStatus(value: unknown): value is LeadStatus {
+  return typeof value === "string" && STATUS_IDS.includes(value as LeadStatus);
+}
